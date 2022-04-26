@@ -1,11 +1,10 @@
 import {Card, CardActions, CardContent, Typography, Button} from "@mui/material";
 
-const BlogPage = ({key, body, title}) => {
+const BlogCard = ({body, title}) => {
 
   return (
     <Card
       sx={{ maxWidth: 800 }}
-      //key={key + 1}
     >
       <CardContent>
         <Typography>{body}</Typography>
@@ -19,4 +18,4 @@ const BlogPage = ({key, body, title}) => {
   );
 };
 
-export default BlogPage;
+export default BlogCard;
