@@ -7,8 +7,15 @@ const BlogCard = ({body, title}) => {
       sx={{ maxWidth: 800 }}
     >
       <CardContent>
-        <Typography>{body}</Typography>
-        <Typography>{title}</Typography>
+        <Typography
+          variant="h6"
+          gutterBottom
+        >
+          {title}
+        </Typography>
+        <Typography>
+          {body}
+        </Typography>
       </CardContent>
       <CardActions>
         <Button>Поделиться</Button>
