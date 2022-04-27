@@ -1,6 +1,7 @@
 import {Card, CardActions, CardContent, Typography, Button} from "@mui/material";
+import {Link} from "react-router-dom";
 
-const BlogCard = ({body, title}) => {
+const BlogCard = ({body, title, id}) => {
 
   return (
     <Card
@@ -19,7 +20,9 @@ const BlogCard = ({body, title}) => {
       </CardContent>
       <CardActions>
         <Button>Поделиться</Button>
-        <Button>Подробнее</Button>
+        <Link key={id} to={`/posts/${id}`}>
+          <Button>Подробнее</Button>
+        </Link>
       </CardActions>
     </Card>
   );
