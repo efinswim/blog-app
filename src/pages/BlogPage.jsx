@@ -1,44 +1,59 @@
-import React from 'react';
+import React, { useRef } from "react";
 import FilterCard from "../components/FilterCard";
 import BlogCard from "../components/BlogCard";
-import {useEffect, useState} from "react";
-import axios from "axios";
-import classes from "./BlogPage.module.css"
+import { useEffect, useState } from "react";
+import classes from "./BlogPage.module.css";
+import PostService from "../API/PostService";
+import { useFetching } from "../hooks/useFetching";
+import { getPageCount, getPagesArray } from "../utils/pages";
+import { useParams } from "react-router-dom";
+import { useObserver } from '../hooks/useObserver';
 
 const BlogPage = () => {
-  const [posts, setPosts] = useState([])
-  const [searchQuery, setSearchQuery] = useState('')
+  const [posts, setPosts] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [totalPages, setTotalPages] = useState(0);
+  const [limit, setLimit] = useState(10);
+  const [page, setPage] = useState(1);
+  const lastElement = useRef();
+  console.log(lastElement);
 
-  const filterPosts = posts.filter(post => {
-    return post.title.toLowerCase().includes(searchQuery.toLowerCase())
+  const [fetchPosts, isPostLoading, postError] = useFetching(async () => {
+    const response = await PostService.getAll(limit, page);
+    setPosts([...posts, ...response.data]);
+    const totalCount = response.headers["x-total-count"];
+    setTotalPages(getPageCount(totalCount, limit));
+  });
+
+  useObserver(lastElement, page < totalPages, isPostLoading, () => {
+    setPage(page + 1)
   })
 
-  async function fetchPosts() {
-    const response = await axios.get('https://jsonplaceholder.typicode.com/posts')
-    setPosts(response.data)
-  }
-
   useEffect(() => {
-    fetchPosts()
-  }, [])
+    fetchPosts();
+  }, [page]);
 
+  const filterPosts = posts.filter((post) => {
+    return post.title.toLowerCase().includes(searchQuery.toLowerCase());
+  });
 
   return (
     <div className={classes.blog__page}>
       <FilterCard
         value={searchQuery}
-        onChange={event => setSearchQuery(event.target.value)}
+        onChange={(event) => setSearchQuery(event.target.value)}
       />
-      {
-        filterPosts.map((post) =>
-            <BlogCard
-              id={post.id}
-              body={post.body}
-              title={post.title}
-              className="blogcard"
-            />
-        )
-      }
+      {filterPosts.map((post) => (
+        <BlogCard
+          id={post.id}
+          body={post.body}
+          title={post.title}
+          className="blogcard"
+        />
+      ))}
+
+      <div ref={lastElement} />
+      {isPostLoading && <div>ЧЕТ ЗАГРУЖАЕТСЯ</div>}
     </div>
   );
 };
