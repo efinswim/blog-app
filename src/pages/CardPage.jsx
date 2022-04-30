@@ -1,7 +1,7 @@
 import React from 'react';
 import {useParams} from "react-router-dom";
 import { useState, useEffect } from "react";
-import BlogCard from "../components/BlogCard";
+import Typography from "@mui/material/Typography";
 
 const CardPage = () => {
   const {id} = useParams()
@@ -13,15 +13,18 @@ const CardPage = () => {
       .then(data => setPost(data))
   }, [id]);
 
+
   return (
-    <div>
-      {id}
+    <div key={id}>
       {
         post && (
           <>
-            <h1>{post.title}</h1>
-            <h2>{post.body}</h2>
-            <h1>hyi</h1>
+            <Typography align="center" variant="h2" gutterBottom component="div">
+              {post.title}
+            </Typography>
+            <Typography align="left" variant="body1" gutterBottom>
+              {post.body}
+            </Typography>
           </>
         )
       }

@@ -22,6 +22,7 @@ const BlogPage = () => {
     fetchPosts()
   }, [])
 
+
   return (
     <div className={classes.blog__page}>
       <FilterCard
@@ -34,6 +35,7 @@ const BlogPage = () => {
               id={post.id}
               body={post.body}
               title={post.title}
+              className="blogcard"
             />
         )
       }

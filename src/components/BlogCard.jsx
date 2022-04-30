@@ -19,9 +19,9 @@ const BlogCard = ({body, title, id}) => {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button>Поделиться</Button>
-        <Link key={id} to={`/posts/${id}`}>
-          <Button>Подробнее</Button>
+        <Button variant="outlined">Поделиться</Button>
+        <Link key={id} to={`/posts/${id}`} style={{ textDecoration: 'none' }}>
+          <Button variant="outlined">Подробнее</Button>
         </Link>
       </CardActions>
     </Card>
