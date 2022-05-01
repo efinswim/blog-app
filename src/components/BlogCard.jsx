@@ -1,5 +1,6 @@
 import {Card, CardActions, CardContent, Typography, Button} from "@mui/material";
 import {Link} from "react-router-dom";
+import classes from "./BlogCard";
 
 const BlogCard = ({body, title, id}) => {
 

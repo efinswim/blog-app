@@ -6,8 +6,8 @@ import classes from "./BlogPage.module.css";
 import PostService from "../API/PostService";
 import { useFetching } from "../hooks/useFetching";
 import { getPageCount, getPagesArray } from "../utils/pages";
-import { useParams } from "react-router-dom";
 import { useObserver } from '../hooks/useObserver';
+import Loader from '../components/Loader';
 
 const BlogPage = () => {
   const [posts, setPosts] = useState([]);
@@ -16,7 +16,6 @@ const BlogPage = () => {
   const [limit, setLimit] = useState(10);
   const [page, setPage] = useState(1);
   const lastElement = useRef();
-  console.log(lastElement);
 
   const [fetchPosts, isPostLoading, postError] = useFetching(async () => {
     const response = await PostService.getAll(limit, page);
@@ -48,12 +47,11 @@ const BlogPage = () => {
           id={post.id}
           body={post.body}
           title={post.title}
-          className="blogcard"
         />
       ))}
 
       <div ref={lastElement} />
-      {isPostLoading && <div>ЧЕТ ЗАГРУЖАЕТСЯ</div>}
+      {isPostLoading && <Loader />}
     </div>
   );
 };
